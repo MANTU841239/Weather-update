@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather App</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin: 50px; }
+    .card { background: #f3f3f3; padding: 20px; border-radius: 10px; display: inline-block; }
+    input, button { padding: 10px; margin: 5px; }
+  </style>
+</head>
+<body>
+  <h1>🌤️ Weather App</h1>
+  <input type="text" id="city" placeholder="Enter city" />
+  <button onclick="getWeather()">Get Weather</button>
+  
+  <div id="result" class="card"></div>
+
+  <script>
+async function getWeather() {
+  const city = document.getElementById("city").value;
+  const res = await fetch(`http://127.0.0.1:8000/weather?city=${city}`);
+  const data = await res.json();
+
+  if (data.cod !== 200) {
+    document.getElementById("result").innerHTML = `<p style="color:red;">❌ ${data.message}</p>`;
+    return;
+  }
+
+  document.getElementById("result").innerHTML = `
+    <h2>${data.name}, ${data.sys.country}</h2>
+    <p>🌡 Temp: ${data.main.temp} °C</p>
+    <p>💧 Humidity: ${data.main.humidity}%</p>
+    <p>🌬 Wind: ${data.wind.speed} m/s</p>
+    <p>☁️ Weather: ${data.weather[0].description}</p>
+  `;
+}
+  </script>
+</body>
+</html>
