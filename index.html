@@ -1,39 +1,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Weather App</title>
-  <style>
-    body { font-family: Arial; text-align: center; margin: 50px; }
-    .card { background: #f3f3f3; padding: 20px; border-radius: 10px; display: inline-block; }
-    input, button { padding: 10px; margin: 5px; }
-  </style>
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-  <h1>🌤️ Weather App</h1>
-  <input type="text" id="city" placeholder="Enter city" />
-  <button onclick="getWeather()">Get Weather</button>
-  
-  <div id="result" class="card"></div>
 
-  <script>
-async function getWeather() {
-  const city = document.getElementById("city").value;
-  const res = await fetch(`http://127.0.0.1:8000/weather?city=${city}`);
-  const data = await res.json();
+<body class="bg-gray-100 p-5">
 
-  if (data.cod !== 200) {
-    document.getElementById("result").innerHTML = `<p style="color:red;">❌ ${data.message}</p>`;
-    return;
-  }
+<div class="grid grid-cols-4 gap-5">
 
-  document.getElementById("result").innerHTML = `
-    <h2>${data.name}, ${data.sys.country}</h2>
-    <p>🌡 Temp: ${data.main.temp} °C</p>
-    <p>💧 Humidity: ${data.main.humidity}%</p>
-    <p>🌬 Wind: ${data.wind.speed} m/s</p>
-    <p>☁️ Weather: ${data.weather[0].description}</p>
-  `;
-}
-  </script>
+<!-- LEFT PANEL -->
+<div class="col-span-1 bg-blue-400 text-white p-6 rounded-2xl">
+
+    <!-- Mini Header -->
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold">🌤 Weather Dashboard</h1>
+        <p class="text-sm mt-1 opacity-90 font-semibold">Created by Mantu Kumar</p>
+    </div>
+
+    <!-- Search -->
+    <input id="city" placeholder="Search for places"
+           class="w-full p-2 rounded text-black mb-5" />
+
+    <button onclick="getWeather()" 
+            class="bg-white text-blue-600 px-3 py-1 rounded font-semibold">
+        Search
+    </button>
+
+    <!-- Weather info -->
+    <div id="left-info" class="mt-8"></div>
+
+</div>
+
+
+    <!-- RIGHT PANEL -->
+    <div class="col-span-3">
+
+        <!-- HOURLY CHART -->
+        <div class="bg-white p-6 rounded-2xl mb-5">
+            <canvas id="hourChart" height="100"></canvas>
+        </div>
+
+        <!-- HIGHLIGHTS -->
+        <div class="grid grid-cols-3 gap-5">
+
+            <div class="bg-white p-6 rounded-2xl">
+                <h2 class="font-bold mb-3">UV Index</h2>
+                <div id="uv"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl">
+                <h2 class="font-bold mb-3">Wind Status</h2>
+                <div id="wind"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl">
+                <h2 class="font-bold mb-3">Sunrise & Sunset</h2>
+                <div id="sun"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl">
+                <h2 class="font-bold mb-3">Humidity</h2>
+                <div id="humidity"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl">
+                <h2 class="font-bold mb-3">Visibility</h2>
+                <div id="visibility"></div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl">
+                <h2 class="font-bold mb-3">Air Quality</h2>
+                <div id="aqi"></div>
+            </div>
+
+        </div>
+
+        <!-- FORECAST -->
+        <div class="bg-white p-6 rounded-2xl mt-5" id="forecast"></div>
+
+    </div>
+
+</div>
+
+<script src="app.js"></script>
+
 </body>
 </html>
+ 
