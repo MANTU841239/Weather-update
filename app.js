@@ -1,7 +1,7 @@
 async function getWeather() {
     const city = document.getElementById("city").value;
 
-    const res = await fetch(`https://your-backend-name.onrender.com/weather?city=${city}`);
+    const res = await fetch(`https://weather-update-9.onrender.com/weather?city=${city}`);
     const data = await res.json();
 
     if (data.error) {
